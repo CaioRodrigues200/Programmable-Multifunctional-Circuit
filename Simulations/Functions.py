@@ -63,7 +63,8 @@ def GenerateHexMZI(Loss: float, process: str, theta_matrix: list[list[float]]):
     Parameters:
     - Loss (float): A floating-point number representing the loss on each MZI.
     - process (ModuleType): Lumerical API used.
-    - theta_matrix (list[list[float]]): A 2D list (6x2 matrix) where each row contains two floating-point numbers representing thetaA and thetaB in radians.
+    - theta_matrix (list[list[float]]): A 2D list (6x2 matrix) where each row contains 
+      two floating-point numbers representing thetaA and thetaB in radians.
     
     Returns:
     None
