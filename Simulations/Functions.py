@@ -56,3 +56,26 @@ def Connectcomponents(process, component1, connections1, component2, connections
         process.connect(component1,'port '+str(connections1[i]), component2,'port '+str(connections2[i]))
         
     
+def GenerateHexMZI(Loss: float, process: str, theta_matrix: list[list[float]]):
+    """
+    GenerateHexMZI is a function that simulates a hexagonal MZI (Mach-Zehnder Interferometer) setup.
+    
+    Parameters:
+    - Loss (float): A floating-point number representing the loss on each MZI.
+    - process (ModuleType): Lumerical API used.
+    - theta_matrix (list[list[float]]): A 2D list (6x2 matrix) where each row contains two floating-point numbers representing thetaA and thetaB in radians.
+    
+    Returns:
+    None
+    """
+    
+    process.addelement('MZI_HEX')
+    process.set('Loss',Loss)
+
+    # Set the phase of the MZIs
+    for i, (thetaA, thetaB) in enumerate(theta_matrix):
+        process.set('Theta'+str(i+1)+'_A', thetaA)
+        process.set('Theta'+str(i+1)+'_B', thetaB)
+    
+    
+    
