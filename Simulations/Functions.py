@@ -1,5 +1,6 @@
 
 from scipy.constants import c
+import numpy as np
 
 def addONA(process, λstart,λend,np,ports, x, y):
 
@@ -77,6 +78,46 @@ def GenerateHexMZI(Loss: float, process: str, theta_matrix: list[list[float]]):
     for i, (thetaA, thetaB) in enumerate(theta_matrix):
         process.set('Theta'+str(i+1)+'_A', thetaA)
         process.set('Theta'+str(i+1)+'_B', thetaB)
+
+
+def polyfind(coeff,linspace,targetValue,targetAxis='x'):
+    """
+    # polyfind
+
+    Finds a approximate value (x or y) of a polynomial function, 
+    given its coefficients and its target value to reference (in x or y axis)
+
+    coeff : n-order polynomial coefficients (coeff[0]*x^(n) + coeff[1]*x^(n-1) + ...), float array
+
+    linspace : array [a,b,c] for numpy.linspace(a,b,c) execution for x axis, float array
+
+    targetValue : Value to be targetted, float
+
+    targetAxis (optional) : defines the axis in which targetValue will be applied, str]
+
+    ## returns 
+
+    returns a float value:
+        - If targetAxis is 'x', this function will return the corresponding y axis value 
+        - If targetAxis is 'y', this function will return the corresponding x axis value 
+    """
+
+    import numpy as np
+
+    xArray = np.linspace(linspace[0],linspace[1],linspace[2])
+    y = 0
+
+    for i in range(len(coeff)):
+        y += coeff[i]*xArray**(len(coeff)-i-1)
+
+    if targetAxis == 'x':
+        FoundValue = y[np.argmin(np.abs(xArray-targetValue))]
+    elif targetAxis == 'y':
+        FoundValue = xArray[np.argmin(np.abs(y-targetValue))]
+    else:
+        raise NameError(f'fitfind(): No target axis named {targetAxis}. Use x or y.')
+
+    return FoundValue
     
     
     
